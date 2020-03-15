@@ -83,7 +83,8 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        self.storage[index] = None
 
     def retrieve(self, key):
         '''
