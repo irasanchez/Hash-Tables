@@ -16,6 +16,15 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
+    def add_to_head(self, key, value):
+        if self.head == None:
+            self.head = LinkedPair(key, value)
+        else:
+            old_head = self.head
+            self.head = LinkedPair(key, value)
+            self.head.next = old_head
+
+
 # HashTable: an array for storage and a hash function 👇
 # the hash function will take a string and return a number
 # the hash table uses the hash function to get an index in our storage array
