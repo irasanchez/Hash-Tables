@@ -11,58 +11,6 @@ class LinkedPair:
         self.value = value
         self.next = None
 
-# Do not use this LinkedList in the Hash Table. The HashTable should incorporate this functionality on its own.
-
-
-class LinkedList:
-    def __init__(self):
-        self.head = None
-
-    def add_to_head(self, key, value):
-        if self.head == None:
-            self.head = LinkedPair(key, value)
-        else:
-            old_head = self.head
-            self.head = LinkedPair(key, value)
-            self.head.next = old_head
-
-        def contains(self, key):
-        if not self.head:
-            return False
-        current = self.head
-        while current:
-            if current.key == key:
-                return True
-            current = current.next
-        return False
-
-        def remove(self, key):
-            if not self.head:
-                print("Error: Key not found")
-            elif self.head.key == key:
-                # Remove head
-                self.head = self.head.next
-            else:
-                parent = self.head
-                current = self.head.next
-                while current:
-                    if current.key == key:
-                        # Remove node
-                        parent.next = current.next
-                        return
-                    current = current.next
-                print("Error: Key not found")
-
-        def retrieve(self, key):
-            if not self.head:
-                return False
-            current = self.head
-            while current:
-                if current.key == key:
-                    return current
-                current = current.next
-            return False
-
 
 # HashTable: an array for storage and a hash function 👇
 # the hash function will take a string and return a number
@@ -118,14 +66,18 @@ class HashTable:
 
         Fill this in.
         '''
-        # use the has mod to turn our key into a hash
+        # use the hash mod to turn our key into a hash
         index = self._hash_mod(key)
 
-        # check in storage if something is at that index already.
+        # if this bucket is not empty
         if self.storage[index] is not None:
-            print(
-                "this is where you will have the linked list add the new item to the tail")
+            # add the new pair to the head of the list
+            placeholder = self.storage[index]
+            self.storage[index] = LinkedPair(key, value)
+            self.storage[index].next = placeholder
+
         else:
+            # if this bucket is empty
             self.storage[index] = LinkedPair(key, value)
 
     def remove(self, key):
@@ -147,9 +99,22 @@ class HashTable:
 
         Fill this in.
         '''
-        hashed_key = self._hash_mod(key)
 
-        return self.storage[hashed_key]
+        index = self._hash_mod(key)
+        print("\n\t...retrieving", key, "from", index, "\n")
+        if self.storage[index] is not None:
+            current = self.storage[index]
+            print("\t...looking at", current.key)
+            if current.key != key:
+                while current:
+                    if current.key is not key:
+                        current = current.next
+                    else:
+                        return current.value
+            else:
+                return current.value
+        else:
+            return None
 
     def resize(self):
         '''
@@ -164,7 +129,12 @@ class HashTable:
 
         # copy stuff into the new array
         for index in range(len(self.storage)):
-            new_storage[index] = self.storage[index]
+            if self.storage[index] is not None:
+                current = self.storage[index]
+                while current:
+                    new_index = self._hash_mod(self.storage[index].key)
+                    new_storage[new_index] = self.storage[index]
+                    current = current.next
 
         self.storage = new_storage
 
@@ -172,16 +142,21 @@ class HashTable:
 if __name__ == "__main__":
     ht = HashTable(2)
 
-    ht.insert("line_1", "Tiny hash table")
-    ht.insert("line_2", "Filled beyond capacity")
-    ht.insert("line_3", "Linked list saves the day!")
-
+    ht.insert("line_1", "val 1")
+    ht.insert("line_2", "val 2")
+    ht.insert("line_3", "val 3")
+    ht.insert("line_4", "val 4")
+    ht.insert("line_5", "val 5")
+    ht.insert("line_6", "val 6")
     print("")
 
     # Test storing beyond capacity
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
+    print(ht.retrieve("line_4"))
+    print(ht.retrieve("line_5"))
+    print(ht.retrieve("line_6"))
 
     # Test resizing
     old_capacity = len(ht.storage)
@@ -191,8 +166,10 @@ if __name__ == "__main__":
     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
     # Test if data intact after resizing
+    print("Test if data intact after resizing")
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
-
-    print("")
+    print(ht.retrieve("line_4"))
+    print(ht.retrieve("line_5"))
+    print(ht.retrieve("line_6"))
