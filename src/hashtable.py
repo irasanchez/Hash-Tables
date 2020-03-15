@@ -105,11 +105,15 @@ class HashTable:
 
         Fill this in.
         '''
-        # self.capacity *= 2
-        # new_storage = [None] * self.capacity
+        # double capacity
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
 
-        # for index in range(len(self.storage)):
-        #     new_storage[index] = old_storage[index]
+        # copy stuff into the new array
+        for index in range(len(self.storage)):
+            new_storage[index] = self.storage[index]
+
+        self.storage = new_storage
 
 
 if __name__ == "__main__":
