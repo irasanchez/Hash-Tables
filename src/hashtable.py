@@ -12,10 +12,15 @@ class LinkedPair:
         self.next = None
 
 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
 # HashTable: an array for storage and a hash function 👇
 # the hash function will take a string and return a number
 # the hash table uses the hash function to get an index in our storage array
 # no longer need to iterate to lookup a value. We now just need the hash to find the index.
+
 
 class HashTable:
     '''
