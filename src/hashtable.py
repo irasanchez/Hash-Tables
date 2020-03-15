@@ -11,6 +11,8 @@ class LinkedPair:
         self.value = value
         self.next = None
 
+# Do not use this LinkedList in the Hash Table. The HashTable should incorporate this functionality on its own.
+
 
 class LinkedList:
     def __init__(self):
@@ -23,6 +25,47 @@ class LinkedList:
             old_head = self.head
             self.head = LinkedPair(key, value)
             self.head.next = old_head
+
+        def contains(self, key):
+        if not self.head:
+            return False
+        current = self.head
+        while current:
+            if current.key == key:
+                return True
+            current = current.next
+        return False
+
+        def remove(self, key):
+            if not self.head:
+                print("Error: Key not found")
+            elif self.head.key == key:
+                # Remove head
+                self.head = self.head.next
+            else:
+                parent = self.head
+                current = self.head.next
+                while current:
+                    if current.key == key:
+                        # Remove node
+                        parent.next = current.next
+                        return
+                    current = current.next
+                print("Error: Key not found")
+
+
+​
+
+
+def retrieve(self, key):
+    if not self.head:
+        return False
+    current = self.head
+    while current:
+        if current.key == key:
+            return current
+        current = current.next
+    return False
 
 
 # HashTable: an array for storage and a hash function 👇
