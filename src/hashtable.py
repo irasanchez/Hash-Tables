@@ -53,19 +53,15 @@ class LinkedList:
                     current = current.next
                 print("Error: Key not found")
 
-
-​
-
-
-def retrieve(self, key):
-    if not self.head:
-        return False
-    current = self.head
-    while current:
-        if current.key == key:
-            return current
-        current = current.next
-    return False
+        def retrieve(self, key):
+            if not self.head:
+                return False
+            current = self.head
+            while current:
+                if current.key == key:
+                    return current
+                current = current.next
+            return False
 
 
 # HashTable: an array for storage and a hash function 👇
